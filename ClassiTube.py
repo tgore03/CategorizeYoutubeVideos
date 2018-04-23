@@ -216,11 +216,6 @@ def do_isomap(X, y=None):
     ax.set_ylabel('Component 1')
     ax.set_zlabel('Component 2')
 
-    imap = Isomap(n_components=3,
-                  n_neighbors=5,
-                  n_jobs=2,
-                  neighbors_algorithm='auto')
-    X_n = imap.fit_transform(X)
     print("Reconstruction Error:", imap.reconstruction_error())
 
     if y is not None:
@@ -246,25 +241,44 @@ def do_kmeans(X):
         print("Time to build KMeans model = ", time.clock()-start_time)
     return kmeans
 
+def do_isomap_AHC(X,y,idx):
+    print("isomap")
+    fig = plt.figure()
+    ax = fig.add_subplot(1,3,idx, projection='3d')
+    ax.set_xlabel('Component 0')
+    ax.set_ylabel('Component 1')
+    ax.set_zlabel('Component 2')
+
+
+    if y is not None:
+        colors = [float(i) for i in y]
+        ax.scatter(X_n[:,0], X_n[:,1], X_n[:,2], c=colors, marker='.')
+    else:
+        ax.scatter(X_n[:,0], X_n[:,1], X_n[:,2], c='r', marker='.')
 
 def do_AHC(X):
     print("TODO")
+    imap = Isomap(n_components=2,
+                  n_neighbors=5,
+                  n_jobs=2,
+                  neighbors_algorithm='auto')
+    X_n = imap.fit_transform(X)
+    print("Reconstruction Error:", imap.reconstruction_error())
+
     #idx  = 1
-    for n_clusters in range(2,21,1):
-        plt.figure(figsize=(10, 4))
+    for n_clusters in range(3,21,3):
+        fig = plt.figure()
         for index, linkage in enumerate(('average', 'complete', 'ward')):
-            plt.subplot(1, 3, index+1)
+            ax = fig.add_subplot(1, 3, index+1)
             #idx+=1
             model = AgglomerativeClustering(linkage=linkage,
                                             n_clusters=n_clusters)
             t0 = time.time()
-            model.fit(X)
+            model.fit_predict(X)
             elapsed_time = time.time() - t0
-            imap = Isomap(n_components=2,n_neighbors=5,neighbors_algorithm='auto')
-            X = imap.fit_transform(X)
-            #print(imap.reconstruction_error())
+            #do_isomap(X,y)
             print("Number of Cluster=%d, linkage = %s, Silhouette Coefficient: %0.3f"% (n_clusters, linkage, silhouette_score(X, model.labels_)))
-            plt.scatter(X[:, 0], X[:, 1], c=model.labels_)
+            plt.scatter(X_n[:, 0], X_n[:, 1], c=model.labels_, marker = '.')
             plt.title('linkage=%s (time %.2fs)' % (linkage, elapsed_time),
                       fontdict=dict(verticalalignment='top'))
             plt.axis('equal')
@@ -272,7 +286,7 @@ def do_AHC(X):
 
             plt.subplots_adjust(bottom=0, top=.89, wspace=0, left=0, right=1)
             plt.suptitle('n_cluster=%i' % (n_clusters), size=17)
-        plt.savefig("num_clusters_fwd_"+str(n_clusters)+".png",bbox_inches="tight",dpi=600)
+        plt.savefig("num_clusters_"+str(n_clusters)+".png",bbox_inches="tight",dpi=600)
     plt.show()
     return None
 
@@ -334,8 +348,7 @@ def process_data(f):
     X, pca = do_pca(X)
     np.savetxt("X.csv", X, delimiter=",")
     np.savetxt("y.csv", y, delimiter=",")
-
-
+    
 #Store the result
     store_array("X_array", X)
     store_array("y_array", y)
@@ -357,7 +370,7 @@ def build_models(f, X=None, y=None, label_map=None, tfidf=None, pca=None):
 
     #KMeans
     start_time = time.clock()
-    kmeans = do_kmeans(X)
+    kmeans = 0#do_kmeans(X)
     print("Time to build KMeans model = ", time.clock()-start_time)
 
     #Hierarchical Clustering
@@ -426,7 +439,7 @@ def test_models(label_map, tfidf, pca, kmeans, hc):
 # main method 
 def main(file_train, file_test):
     # Preprocess data and store it in file
-    # X, y, label_map, tfidf, pca = process_data(file_train)
+    #X, y, label_map, tfidf, pca = process_data(file_train)
     #print("Data Processed")
 
     #Read data from files
