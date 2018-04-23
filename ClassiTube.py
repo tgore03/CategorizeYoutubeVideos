@@ -4,12 +4,14 @@ import pandas as pd
 import numpy as np
 import time
 import matplotlib.pyplot as plt
+import matplotlib.colors as col
+from astor.source_repr import delimiter_groups
 
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_samples, silhouette_score
-import matplotlib.cm as cm
-from mpl_toolkits.mplot3d import Axes3D
 from sklearn.manifold import Isomap
+from mpl_toolkits.mplot3d import Axes3D
+
 
 
 
@@ -141,16 +143,17 @@ def tf_idf(data):
 # Perform the PCA on the input data set
 def do_pca(X):
     #PCA
+
     pca = PCA(0.95)
     pca.fit(X)
     X = pca.transform(X)
 
     if LOG:
         print("PCA")
-        print("Explained Variance:", pca.explained_variance_)
-        print("Explained Variance Ratio Sum:", pca.explained_variance_ratio_.sum())
-        print("PCA Transformed Data Shape:\n",X.shape)
-        print()
+    #     print("Explained Variance:", pca.explained_variance_)
+    #     print("Explained Variance Ratio Sum:", pca.explained_variance_ratio_.sum())
+    #     print("PCA Transformed Data Shape:\n",X.shape)
+    #     print()
     return X, pca
 
 # Build a neural network model for input data, validate it and run on test data set
@@ -209,26 +212,42 @@ def use_ann(X,y):
 
     return model
 
-def do_isomap(X):
-    plt.xlabel('Component 0')
-    plt.ylabel('Component 1')
-    imap = Isomap(n_components=2,
+def do_isomap(X, y=None):
+    print("isomap")
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.set_xlabel('Component 0')
+    ax.set_ylabel('Component 1')
+    ax.set_zlabel('Component 2')
+
+    imap = Isomap(n_components=3,
                   n_neighbors=5,
+                  n_jobs=2,
                   neighbors_algorithm='auto')
     X_n = imap.fit_transform(X)
-    print(imap.reconstruction_error())
-    plt.scatter(X_n[:,0], X_n[:,1], c='r', marker='.')
+    print("Reconstruction Error:", imap.reconstruction_error())
+
+    if y is not None:
+        colors = [float(i) for i in y]
+        ax.scatter(X_n[:,0], X_n[:,1], X_n[:,2], c=colors, marker='.')
+    else:
+        ax.scatter(X_n[:,0], X_n[:,1], X_n[:,2], c='r', marker='.')
     plt.show()
 
 def do_kmeans(X):
     print("\nKMeans")
+
     k_range=[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25]
     for i in k_range:
-        kmeans = KMeans(n_clusters=i, random_state=0)
-        kmeans = kmeans.fit(X)
+        start_time = time.clock()
+        kmeans = KMeans(n_clusters=i, n_init=20)
+        y = kmeans.fit_predict(X)
+
+        do_isomap(X, y)
         #print("Score=", kmeans.score(X))
         print("For k=%d, Silhouette Coefficient: %0.3f"
               % (i, silhouette_score(X, kmeans.labels_)))
+        print("Time to build KMeans model = ", time.clock()-start_time)
     return kmeans
 
 
@@ -292,8 +311,11 @@ def process_data(f):
     data, y, label_map = read_data(f)
     X, tfidf = tf_idf(data)
     X, pca = do_pca(X)
+    np.savetxt("X.csv", X, delimiter=",")
+    np.savetxt("y.csv", y, delimiter=",")
 
-    #Store the result
+
+#Store the result
     store_array("X_array", X)
     store_array("y_array", y)
     store_array("label_map",label_map)
@@ -309,6 +331,8 @@ def build_models(f, X=None, y=None, label_map=None, tfidf=None, pca=None):
         data, y, label_map = read_data(f)
         X, tfidf = tf_idf(data)
         X, pca = do_pca(X)
+
+    #do_isomap(X, y)
 
     #KMeans
     start_time = time.clock()
@@ -381,16 +405,16 @@ def test_models(label_map, tfidf, pca, kmeans, hc):
 # main method 
 def main(file_train, file_test):
     # Preprocess data and store it in file
-    X, y, label_map, tfidf, pca = process_data(file_train)
+    # X, y, label_map, tfidf, pca = process_data(file_train)
     #print("Data Processed")
 
     #Read data from files
-    #X=read_array("X_array.npy")
-    #y=read_array("y_array.npy")
-    #label_map=read_array("label_map.npy")
-    #tfidf=read_instance("tfidf.sav")
-    #pca=read_instance("pca.sav")
-    #print("Data read")
+    X=read_array("X_array.npy")
+    y=read_array("y_array.npy")
+    label_map=read_array("label_map.npy")
+    tfidf=read_instance("tfidf.sav")
+    pca=read_instance("pca.sav")
+    print("Data read")
 
     # Buildling ANN and kNN models
     label_map, tfidf, pca, kmeans, hc = build_models(file_train, X, y, label_map, tfidf, pca)
