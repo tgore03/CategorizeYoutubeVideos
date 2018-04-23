@@ -130,7 +130,7 @@ def tf_idf(data):
         print("Vector shape:", X.shape)
         print()
 
-    #X = X.todense()
+    X = X.todense()
     if LOG:
         print("After Dense operation")
         print("Vector Shape:", X.shape)
@@ -209,14 +209,7 @@ def use_ann(X,y):
 
     return model
 
-def do_kmeans(X):
-    # print("\nKMeans")
-    # kmeans = KMeans(n_clusters=50, random_state=0)
-    # kmeans = kmeans.fit(X)
-    # print("kmeans.labels_=", kmeans.labels_)
-    # print("Score=", kmeans.score(X))
-
-    #Visualize the data
+def do_isomap(X):
     plt.xlabel('Component 0')
     plt.ylabel('Component 1')
     imap = Isomap(n_components=2,
@@ -227,15 +220,15 @@ def do_kmeans(X):
     plt.scatter(X_n[:,0], X_n[:,1], c='r', marker='.')
     plt.show()
 
-
-
+def do_kmeans(X):
+    print("\nKMeans")
     k_range=[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25]
     for i in k_range:
         kmeans = KMeans(n_clusters=i, random_state=0)
         kmeans = kmeans.fit(X)
-        print("Score=", kmeans.score(X))
-        print("Silhouette Coefficient: %0.3f"
-              % silhouette_score(X, kmeans.labels_))
+        #print("Score=", kmeans.score(X))
+        print("For k=%d, Silhouette Coefficient: %0.3f"
+              % (i, silhouette_score(X, kmeans.labels_)))
     return kmeans
 
 
