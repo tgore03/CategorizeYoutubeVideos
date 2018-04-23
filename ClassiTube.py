@@ -10,12 +10,8 @@ from astor.source_repr import delimiter_groups
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_samples, silhouette_score
 from sklearn.manifold import Isomap
+from sklearn.cluster import AgglomerativeClustering
 from mpl_toolkits.mplot3d import Axes3D
-
-
-
-
-
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import PCA
@@ -253,8 +249,33 @@ def do_kmeans(X):
     return kmeans
 
 
-def do_HC(X):
+def do_AHC(X):
     print("TODO")
+    #idx  = 1
+    for n_clusters in range(2,21,1):
+        plt.figure(figsize=(10, 4))
+        for index, linkage in enumerate(('average', 'complete', 'ward')):
+            plt.subplot(1, 3, index+1)
+            #idx+=1
+            model = AgglomerativeClustering(linkage=linkage,
+                                            n_clusters=n_clusters)
+            t0 = time.time()
+            model.fit(X)
+            elapsed_time = time.time() - t0
+            imap = Isomap(n_components=2,n_neighbors=5,neighbors_algorithm='auto')
+            X = imap.fit_transform(X)
+            #print(imap.reconstruction_error())
+            print("Number of Cluster=%d, linkage = %s, Silhouette Coefficient: %0.3f"% (n_clusters, linkage, silhouette_score(X, model.labels_)))
+            plt.scatter(X[:, 0], X[:, 1], c=model.labels_)
+            plt.title('linkage=%s (time %.2fs)' % (linkage, elapsed_time),
+                      fontdict=dict(verticalalignment='top'))
+            plt.axis('equal')
+            plt.axis('off')
+
+            plt.subplots_adjust(bottom=0, top=.89, wspace=0, left=0, right=1)
+            plt.suptitle('n_cluster=%i' % (n_clusters), size=17)
+        plt.savefig("num_clusters_fwd_"+str(n_clusters)+".png",bbox_inches="tight",dpi=600)
+    plt.show()
     return None
 
 # decode c dimension output to 1 dimension
@@ -343,7 +364,7 @@ def build_models(f, X=None, y=None, label_map=None, tfidf=None, pca=None):
 
     #Hierarchical Clustering
     start_time = time.clock()
-    hc = do_HC(X)
+    hc = do_AHC(X)
     print("Time to build Hierarchical Clustering model = ", time.clock()-start_time)
 
 
