@@ -212,10 +212,11 @@ def use_ann(X,y):
 
     return model
 
-def do_isomap(X, y=None):
+def do_isomap(X, title, y=None):
     print("isomap")
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
+    ax.set_title(title)
     ax.set_xlabel('Component 0')
     ax.set_ylabel('Component 1')
     ax.set_zlabel('Component 2')
@@ -233,6 +234,7 @@ def do_isomap(X, y=None):
     else:
         ax.scatter(X_n[:,0], X_n[:,1], X_n[:,2], c='r', marker='.')
     plt.show()
+    
 
 def do_kmeans(X):
     print("\nKMeans")
@@ -242,8 +244,8 @@ def do_kmeans(X):
         start_time = time.clock()
         kmeans = KMeans(n_clusters=i, n_init=20)
         y = kmeans.fit_predict(X)
-
-        do_isomap(X, y)
+        title = "KMeans K=", str(i)
+        do_isomap(X, title, y)
         #print("Score=", kmeans.score(X))
         print("For k=%d, Silhouette Coefficient: %0.3f"
               % (i, silhouette_score(X, kmeans.labels_)))
