@@ -28,7 +28,7 @@ from keras.utils import np_utils
 from keras.callbacks import EarlyStopping
 from keras import optimizers
 
-LOG=True
+LOG=False
 
 # Read the input data, store it in numpy array, preprocess it and maps the labels to indexes 
 def read_data(file, label_values=None):
@@ -208,7 +208,7 @@ def use_ann(X,y):
 
     return model
 
-def do_isomap(X, y=None):
+def do_isomap(X):
     print("isomap")
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -217,28 +217,54 @@ def do_isomap(X, y=None):
     ax.set_zlabel('Component 2')
 
     print("Reconstruction Error:", imap.reconstruction_error())
+    return X_n
 
+def plot2d_isomap(X, title, y=None):
+    plt.title(title)
+    plt.xlabel('Component 0')
+    plt.ylabel('Component 1')
+    if y is not None:
+        colors = [float(i)% len(set(y)) for i in y]
+        plt.scatter(X[:,0], X[:,1], c=colors, marker='.')
+    else:
+        plt.scatter(X[:,0], X[:,1], c='r', marker='.')
+    #plt.show()
+    plt.savefig(""+str(title)+".png", dpi = 600)
+
+def plot_isomap(X, title, y=None):
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.set_title(title)
+    ax.set_xlabel('Component 0')
+    ax.set_ylabel('Component 1')
+    ax.set_zlabel('Component 2')
     if y is not None:
         colors = [float(i) for i in y]
-        ax.scatter(X_n[:,0], X_n[:,1], X_n[:,2], c=colors, marker='.')
+        ax.scatter(X[:,0], X[:,1], X[:,2], c=colors, marker='.')
     else:
-        ax.scatter(X_n[:,0], X_n[:,1], X_n[:,2], c='r', marker='.')
-    plt.show()
+        ax.scatter(X[:,0], X[:,1], X[:,2], c='r', marker='.')
+    #plt.show()
+    plt.savefig(""+str(title)+".png", dpi = 600)
 
-def do_kmeans(X):
+
+
+def do_kmeans(X, X_n=None):
+    if X_n is None:
+        X_n = do_isomap(X)
+
     print("\nKMeans")
-
     k_range=[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25]
     for i in k_range:
         start_time = time.clock()
         kmeans = KMeans(n_clusters=i, n_init=20)
         y = kmeans.fit_predict(X)
+        print("Time to build KMeans model = ", time.clock()-start_time)
 
-        do_isomap(X, y)
+        title="Kmeans, k-"+str(i)
+        plot2d_isomap(X_n, title, y)
         #print("Score=", kmeans.score(X))
         print("For k=%d, Silhouette Coefficient: %0.3f"
               % (i, silhouette_score(X, kmeans.labels_)))
-        print("Time to build KMeans model = ", time.clock()-start_time)
     return kmeans
 
 def do_isomap_AHC(X,y,idx):
@@ -265,6 +291,7 @@ def do_AHC(X):
     X_n = imap.fit_transform(X)
     print("Reconstruction Error:", imap.reconstruction_error())
 
+    print("Aglomerative Hierarchical clustering")
     #idx  = 1
     for n_clusters in range(3,21,3):
         fig = plt.figure()
@@ -366,7 +393,7 @@ def build_models(f, X=None, y=None, label_map=None, tfidf=None, pca=None):
         X, tfidf = tf_idf(data)
         X, pca = do_pca(X)
 
-    #do_isomap(X, y)
+    #do_isomap(X)
 
     #KMeans
     start_time = time.clock()
