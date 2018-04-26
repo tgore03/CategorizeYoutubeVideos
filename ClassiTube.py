@@ -222,6 +222,7 @@ def plot2d_isomap(X, title, y=None):
     plt.title(title)
     plt.xlabel('Component 0')
     plt.ylabel('Component 1')
+    plt.legend()
     if y is not None:
         colors = [float(i)% len(set(y)) for i in y]
         plt.scatter(X[:,0], X[:,1], c=colors, marker='.')
@@ -252,10 +253,11 @@ def do_kmeans(X, X_n=None):
         X_n = do_isomap(X)
 
     print("\nKMeans")
-    k_range=[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25]
+    #k_range=[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25]
+    k_range=[50, 100, 300, 500, 700, 1000]
     for i in k_range:
         start_time = time.clock()
-        kmeans = KMeans(n_clusters=i, n_init=20)
+        kmeans = KMeans(n_clusters=i, n_init=20, n_jobs=3)
         y = kmeans.fit_predict(X)
         print("Time to build KMeans model = ", time.clock()-start_time)
 
@@ -468,4 +470,5 @@ def main(file_train, file_test):
 file_train ='USvideos_modified.csv' 
 file_test ='USvideos_modified_test.csv' 
 
-main(file_train, file_test)
+if __name__ == '__main__':
+    main(file_train, file_test)

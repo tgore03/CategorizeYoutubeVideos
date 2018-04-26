@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59ee6113-5ad0-49b3-91be-d2c2c1620143" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/EE525 Project - Gitlab.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/EE525 Project - Gitlab.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Categorizing YouTube Videos.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/Categorizing YouTube Videos.pptx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ClassiTube.py" beforeDir="false" afterPath="$PROJECT_DIR$/ClassiTube.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VideoCategorization_Final Report.docx" beforeDir="false" afterPath="$PROJECT_DIR$/VideoCategorization_Final Report.docx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,15 +20,11 @@
       <file leaf-file-name="ClassiTube.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ClassiTube.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="225" column="38" selection-start-line="225" selection-start-column="38" selection-end-line="225" selection-end-column="38" />
+            <state relative-caret-position="3890">
+              <caret line="464" lean-forward="true" selection-start-line="464" selection-end-line="464" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
-                <element signature="e#9321#9491#0" />
-                <element signature="e#9614#10053#0" />
-                <element signature="e#10119#10614#0" />
-                <element signature="e#10701#10903#0" />
-                <element signature="e#10973#11372#0" />
+                <element signature="e#4557#6483#0" />
               </folding>
             </state>
           </provider>
@@ -54,6 +53,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -66,8 +67,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -179,25 +178,25 @@
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.50706214" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32909605" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.5324859" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25302014" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25973153" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
       <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Messages" order="7" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Messages" order="7" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -211,15 +210,33 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/ClassiTube.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8041">
+          <caret line="473" column="31" selection-start-line="473" selection-start-column="31" selection-end-line="473" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#4557#6483#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ClassiTube.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3825">
+          <caret line="225" column="38" selection-start-line="225" selection-start-column="38" selection-end-line="225" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#4557#6483#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ClassiTube.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4012">
           <caret line="236" selection-start-line="236" selection-end-line="236" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
-            <element signature="e#9321#9491#0" />
-            <element signature="e#9614#10053#0" />
-            <element signature="e#10119#10614#0" />
-            <element signature="e#10701#10903#0" />
-            <element signature="e#10973#11372#0" />
+            <element signature="e#4557#6483#0" />
           </folding>
         </state>
       </provider>
@@ -233,15 +250,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ClassiTube.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="225" column="38" selection-start-line="225" selection-start-column="38" selection-end-line="225" selection-end-column="38" />
+        <state relative-caret-position="3890">
+          <caret line="464" lean-forward="true" selection-start-line="464" selection-end-line="464" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
-            <element signature="e#9321#9491#0" />
-            <element signature="e#9614#10053#0" />
-            <element signature="e#10119#10614#0" />
-            <element signature="e#10701#10903#0" />
-            <element signature="e#10973#11372#0" />
+            <element signature="e#4557#6483#0" />
           </folding>
         </state>
       </provider>
