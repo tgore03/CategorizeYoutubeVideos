@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59ee6113-5ad0-49b3-91be-d2c2c1620143" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/EE525 Project - Gitlab.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/EE525 Project - Gitlab.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Categorizing YouTube Videos.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/Categorizing YouTube Videos.pptx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClassiTube.py" beforeDir="false" afterPath="$PROJECT_DIR$/ClassiTube.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VideoCategorization_Final Report.docx" beforeDir="false" afterPath="$PROJECT_DIR$/VideoCategorization_Final Report.docx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,12 +16,8 @@
       <file leaf-file-name="ClassiTube.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ClassiTube.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3890">
-              <caret line="464" lean-forward="true" selection-start-line="464" selection-end-line="464" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-                <element signature="e#4557#6483#0" />
-              </folding>
+            <state relative-caret-position="289">
+              <caret line="54" column="46" lean-forward="true" selection-start-line="54" selection-start-column="46" selection-end-line="54" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -212,10 +204,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8041">
           <caret line="473" column="31" selection-start-line="473" selection-start-column="31" selection-end-line="473" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-            <element signature="e#4557#6483#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -223,10 +211,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3825">
           <caret line="225" column="38" selection-start-line="225" selection-start-column="38" selection-end-line="225" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-            <element signature="e#4557#6483#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -234,10 +218,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4012">
           <caret line="236" selection-start-line="236" selection-end-line="236" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-            <element signature="e#4557#6483#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -250,12 +230,43 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ClassiTube.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3890">
-          <caret line="464" lean-forward="true" selection-start-line="464" selection-end-line="464" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-            <element signature="e#4557#6483#0" />
-          </folding>
+        <state relative-caret-position="-2196">
+          <caret line="208" column="41" lean-forward="true" selection-start-line="208" selection-start-column="41" selection-end-line="208" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ClassiTube.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8041">
+          <caret line="473" column="31" selection-start-line="473" selection-start-column="31" selection-end-line="473" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ClassiTube.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3825">
+          <caret line="225" column="38" selection-start-line="225" selection-start-column="38" selection-end-line="225" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ClassiTube.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4012">
+          <caret line="236" selection-start-line="236" selection-end-line="236" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Program Files/Python36/Lib/site-packages/sklearn/metrics/cluster/unsupervised.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-187">
+          <caret line="27" column="56" selection-start-line="27" selection-start-column="56" selection-end-line="27" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ClassiTube.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="54" column="46" lean-forward="true" selection-start-line="54" selection-start-column="46" selection-end-line="54" selection-end-column="46" />
         </state>
       </provider>
     </entry>

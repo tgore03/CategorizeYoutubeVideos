@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as col
 from astor.source_repr import delimiter_groups
 
+import matplotlib.cm as cm
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_samples, silhouette_score
 from sklearn.manifold import Isomap
@@ -152,67 +153,11 @@ def do_pca(X):
     #     print()
     return X, pca
 
-# Build a neural network model for input data, validate it and run on test data set
-def use_ann(X,y):
-    #Perform Neural Networks
-    # define early stopping callback
-    earlystop = EarlyStopping(monitor='val_acc', min_delta=0.00001, patience=10, \
-                              verbose=1, mode='auto')
-    callbacks_list = [earlystop]
-
-    # Hyper-Parameters
-    momentum_rate = 0.4
-    filters = 1024
-    epochs = 10
-    batch_size = 100
-    learning_rate = 0.05
-    neurons = 500
-    hidden_units = 'linear'
-    error_function = 'categorical_crossentropy'
-
-    # Neural Network Model
-    print("\n\n\nNeural Networks")
-    if LOG:
-        print("len(X[0]):", len(X[0]))
-        print("len(set(y)):", len(set(y)))
-
-    model = Sequential()
-    model.add(Dense(300, input_dim=len(X[0]), activation=hidden_units))  # First hidden layer
-    model.add(Dense(300, activation=hidden_units))  # Second hidden layer
-    model.add(Dense(300, activation=hidden_units))  # Third hidden layer
-    model.add(Dense(300, activation=hidden_units))
-    model.add(Dense(300, activation=hidden_units))
-    model.add(Dense(len(set(y)), activation='softmax'))  # Softmax function for output layer
-
-    # Split dataset to train and test data
-    X_train, X_test, y_train, y_test = train_test_split(X, y.T, test_size=0.20, random_state=1)
-
-    # Stochastic Gradient Descent for Optimization
-    sgd = optimizers.SGD(lr=learning_rate, decay=1e-6, momentum=momentum_rate, nesterov=True)
-    adam = optimizers.Adam();
-
-    # Compile the model
-    model.compile(loss=error_function, optimizer=adam, metrics=['accuracy'])
- 
-    # 1-of-c output encoding
-    Y_train = np_utils.to_categorical(y_train)
-    print("Y_train: ",Y_train.shape)
-        
-    model.fit(X_train, Y_train, validation_split=0.2, epochs=100, batch_size=100, verbose=0, callbacks=callbacks_list)
-
-    predictions = model.predict(X_test)
-
-    y_pred = decode_output(y_test,predictions)
-    #print_statistics(y_train,y_pred)
-    print_statistics(y_test,y_pred, deep=True)
-
-    return model
-
-def do_isomap(X):
-    print("isomap")
-    imap = Isomap(n_components=2,
+def do_isomap(X,n_comp):
+    print("Performing isomap")
+    imap = Isomap(n_components=n_comp,
                   n_neighbors=5,
-                  n_jobs=3,
+                  n_jobs=2,
                   neighbors_algorithm='auto')
     X_n = imap.fit_transform(X)
     print("Reconstruction Error:", imap.reconstruction_error())
@@ -246,11 +191,9 @@ def plot_isomap(X, title, y=None):
     #plt.show()
     plt.savefig(""+str(title)+".png", dpi = 600)
 
-
-
 def do_kmeans(X, X_n=None):
     if X_n is None:
-        X_n = do_isomap(X)
+        X_n = do_isomap(X,2)
 
     print("\nKMeans")
     #k_range=[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25]
@@ -268,33 +211,138 @@ def do_kmeans(X, X_n=None):
               % (i, silhouette_score(X, kmeans.labels_)))
     return kmeans
 
+def plot_isomap2d_AHC(X_n,model,index,linkage,n_clusters,elapsed_time):
+    print("isomap 2D")
+    plt.subplot(1, 3, index+1)
+    plt.scatter(X_n[:, 0], X_n[:, 1], c=model.labels_, marker = '.')
+    plt.title('linkage=%s (time %.2fs)' % (linkage, elapsed_time),
+              fontdict=dict(verticalalignment='top'))
+    plt.axis('equal')
+    plt.axis('off')
+    plt.subplots_adjust(bottom=0, top=.89, wspace=0, left=0, right=1)
+    plt.suptitle('n_cluster=%i' % (n_clusters), size=17)
+
+def plot_isomap3d_AHC(X_n,model,index,linkage,n_clusters,elapsed_time):
+    print("isomap 3D")
+    plt.subplot(111, projection='3d')
+    plt.scatter(X_n[:, 0], X_n[:, 1], X_n[:, 2], c=model.labels_, marker = '.')
+    plt.title('linkage=%s (time %.2fs)' % (linkage, elapsed_time),
+              fontdict=dict(verticalalignment='top'))
+    plt.axis('equal')
+    plt.axis('off')
+    plt.subplots_adjust(bottom=0, top=.89, wspace=0, left=0, right=1)
+    plt.suptitle('n_cluster=%i' % (n_clusters), size=17)
+    plt.savefig("3D_num_clusters_"+str(linkage)+str(n_clusters)+".png",bbox_inches="tight",dpi=600)
+
+def silhouette_plot(X, l, h):
+    for n_clusters in range(l,h):
+        # Create a subplot with 1 row and 2 columns
+        fig, (ax1, ax2) = plt.subplots(1, 2)
+        fig.set_size_inches(18, 7)
+
+        # The 1st subplot is the silhouette plot
+        # The silhouette coefficient can range from -1, 1 but in this example all
+        # lie within [-0.1, 1]
+        ax1.set_xlim([-0.1, 1])
+        # The (n_clusters+1)*10 is for inserting blank space between silhouette
+        # plots of individual clusters, to demarcate them clearly.
+        ax1.set_ylim([0, len(X) + (n_clusters + 1) * 10])
+
+        # Initialize the clusterer with n_clusters value and a random generator
+        # seed of 10 for reproducibility.
+        clusterer = AgglomerativeClustering(linkage='complete',n_clusters=n_clusters)
+        cluster_labels = clusterer.fit_predict(X)
+
+        # The silhouette_score gives the average value for all the samples.
+        # This gives a perspective into the density and separation of the formed
+        # clusters
+        silhouette_avg = silhouette_score(X, cluster_labels)
+        print("For n_clusters =", n_clusters,
+              "The average silhouette_score is :", silhouette_avg)
+     
+     # Compute the silhouette scores for each sample
+        sample_silhouette_values = silhouette_samples(X, cluster_labels)
+
+        y_lower = 10
+        for i in range(n_clusters):
+            # Aggregate the silhouette scores for samples belonging to
+            # cluster i, and sort them
+            ith_cluster_silhouette_values = \
+                sample_silhouette_values[cluster_labels == i]
+
+            ith_cluster_silhouette_values.sort()
+
+            size_cluster_i = ith_cluster_silhouette_values.shape[0]
+            y_upper = y_lower + size_cluster_i
+
+            color = plt.cm.Spectral(float(i) / n_clusters)
+            #colors = [float(i) for i in cluster_labels]
+            ax1.fill_betweenx(np.arange(y_lower, y_upper),
+                              0, ith_cluster_silhouette_values,
+                              facecolor=color, edgecolor=color, alpha=0.7)
+
+            # Label the silhouette plots with their cluster numbers at the middle
+            ax1.text(-0.05, y_lower + 0.5 * size_cluster_i, str(i))
+
+            # Compute the new y_lower for next plot
+            y_lower = y_upper + 10  # 10 for the 0 samples
+
+        ax1.set_title("The silhouette plot for the various clusters.")
+        ax1.set_xlabel("The silhouette coefficient values")
+        ax1.set_ylabel("Cluster label")
+
+        # The vertical line for average silhouette score of all the values
+        ax1.axvline(x=silhouette_avg, color="red", linestyle="--")
+
+        ax1.set_yticks([])  # Clear the yaxis labels / ticks
+        ax1.set_xticks([-0.1, 0, 0.2, 0.4, 0.6, 0.8, 1])
+
+        # 2nd Plot showing the actual clusters formed
+        colors = plt.cm.Spectral(cluster_labels.astype(float) / n_clusters)
+        ax2.scatter(X[:, 0], X[:, 1], marker='.', s=30, lw=0, alpha=0.7,
+                    c=colors, edgecolor='k')
+
+        # Labeling the clusters
+        #centers = clusterer.cluster_centers_
+        # Draw white circles at cluster centers
+        #ax2.scatter(centers[:, 0], centers[:, 1], marker='o',
+        #            c="white", alpha=1, s=200, edgecolor='k')
+
+        #for i, c in enumerate(centers):
+        #    ax2.scatter(c[0], c[1], marker='$%d$' % i, alpha=1,
+        #                s=50, edgecolor='k')
+
+        ax2.set_title("The visualization of the clustered data.")
+        ax2.set_xlabel("Feature space for the 1st feature")
+        ax2.set_ylabel("Feature space for the 2nd feature")
+
+        plt.suptitle(("Silhouette analysis for KMeans clustering on sample data "
+                      "with n_clusters = %d" % n_clusters),
+                     fontsize=14, fontweight='bold')
+        plt.show()
 
 def do_AHC(X):
     print("Aglomerative Hierarchical clustering")
-    #idx  = 1
-    for n_clusters in range(2,21,1):
+    for n_clusters in range(5,20):
         plt.figure(figsize=(10, 4))
         for index, linkage in enumerate(('average', 'complete', 'ward')):
-            plt.subplot(1, 3, index+1)
-            #idx+=1
             model = AgglomerativeClustering(linkage=linkage,
                                             n_clusters=n_clusters)
             t0 = time.time()
             model.fit(X)
             elapsed_time = time.time() - t0
-            imap = Isomap(n_components=2,n_neighbors=5,neighbors_algorithm='auto')
-            X = imap.fit_transform(X)
-            #print(imap.reconstruction_error())
-            print("Number of Cluster=%d, linkage = %s, Silhouette Coefficient: %0.3f"% (n_clusters, linkage, silhouette_score(X, model.labels_)))
-            plt.scatter(X[:, 0], X[:, 1], c=model.labels_)
-            plt.title('linkage=%s (time %.2fs)' % (linkage, elapsed_time),
-                      fontdict=dict(verticalalignment='top'))
-            plt.axis('equal')
-            plt.axis('off')
+            
+            print("Number of Cluster=%d, linkage = %10s, Silhouette Coefficient: %0.3f"% (n_clusters, linkage, silhouette_score(X, model.labels_)))
+            
+            #plot 2d
+            X_n = do_isomap(X,2)
+            plot_isomap2d_AHC(X_n,model,index,linkage,n_clusters,elapsed_time)
+        
+            #plot 3d
+            #X_n = do_isomap(X,3)
+            #plot_isomap3d_AHC(X_n,model,index,linkage,n_clusters,elapsed_time)
 
-            plt.subplots_adjust(bottom=0, top=.89, wspace=0, left=0, right=1)
-            plt.suptitle('n_cluster=%i' % (n_clusters), size=17)
-        plt.savefig("num_clusters_fwd_"+str(n_clusters)+".png",bbox_inches="tight",dpi=600)
+        plt.savefig("num_clusters_"+str(n_clusters)+".png",bbox_inches="tight",dpi=600)
     plt.show()
     return None
 
@@ -324,31 +372,6 @@ def print_statistics(y_test,y_pred, deep=False):
     print("Overall Accuracy:\n", accuracy)
     return accuracy
 
-# Build the K-Nearest Neighbors model
-def use_kNN(X,y,l,h):
-    # Split dataset to train and test data
-    X_train, X_test, y_train, y_test = train_test_split(X, y.T, test_size=0.20, random_state=None)
-    k_range = range(l,h)
-    scores = []
-    for k in k_range:
-        print("\n\n\nK - Nearest Neighbors")
-        knn = KNeighborsClassifier(n_neighbors=k)
-        knn.fit(X_train, y_train)
-        y_pred = knn.predict(X_test)
-        accuracy = print_statistics(y_test, y_pred, deep=False)
-        scores.append(accuracy)
-
-    return knn, k_range, scores
-
-# plot the kNN accuracy for different values of k
-def plot_kNN(k_range, scores):
-    # plot the relationship between K and testing accuracy
-    # plt.plot(x_axis, y_axis)
-    plt.plot(k_range, scores)
-    plt.xlabel('Value of K for KNN')
-    plt.ylabel('Testing Accuracy')
-    plt.show()
-
 # Preprocess data and store it in the file
 def process_data(f):
     data, y, label_map = read_data(f)
@@ -356,8 +379,7 @@ def process_data(f):
     X, pca = do_pca(X)
     np.savetxt("X.csv", X, delimiter=",")
     np.savetxt("y.csv", y, delimiter=",")
-
-
+    
 #Store the result
     store_array("X_array", X)
     store_array("y_array", y)
@@ -379,31 +401,15 @@ def build_models(f, X=None, y=None, label_map=None, tfidf=None, pca=None):
 
     #KMeans
     start_time = time.clock()
-    kmeans = do_kmeans(X)
+    kmeans = 0#do_kmeans(X)
     print("Time to build KMeans model = ", time.clock()-start_time)
 
     #Hierarchical Clustering
     start_time = time.clock()
-    hc = do_AHC(X)
+    hc = 0#do_AHC(X)
+    silhouette_plot(X,20,21)
     print("Time to build Hierarchical Clustering model = ", time.clock()-start_time)
 
-
-
-
-    # # ANN
-    # start_time=time.clock()
-    # ann = use_ann(X,y)
-    # print("Time to build ANN model = ", time.clock()-start_time)
-
-    # # kNN
-    # kmin = 1
-    # kmax = 20
-    # start_time=time.clock()
-    #
-    # knn, k_range, scores = use_kNN(X,y,kmin,kmax)
-    # print("Time to build KNN model = ", time.clock()-start_time)
-    # plot_kNN(k_range, scores)
-    
     return label_map, tfidf, pca, kmeans, hc
 
 # Test the new data point on already build models
@@ -425,30 +431,10 @@ def test_models(label_map, tfidf, pca, kmeans, hc):
     print("Predicted Class = ", y_pred)
     y_test = y.T
     print_statistics(y_test,y_pred, deep=False)
-
-
-
-    # # use ANN
-    # start_time=time.clock()
-    # prediction = ann.predict(X)
-    # y_test = y.T
-    # y_pred = decode_output(y_test,prediction)
-    # print_statistics(y_test,y_pred, deep=False)
-    # print("y_test=",y_test, " y_pred=",y_pred)
-    # print("Time to test ANN model = ", time.clock()-start_time)
-    #
-    # # use kNN
-    # start_time=time.clock()
-    # y_pred = knn.predict(X)
-    # y_test = y.T
-    # print_statistics(y_test,y_pred, deep=False)
-    # print("y_test=",y_test, " y_pred=",y_pred)
-    # print("Time to test KNN model = ", time.clock()-start_time)
-
 # main method 
 def main(file_train, file_test):
     # Preprocess data and store it in file
-    # X, y, label_map, tfidf, pca = process_data(file_train)
+    #X, y, label_map, tfidf, pca = process_data(file_train)
     #print("Data Processed")
 
     #Read data from files
@@ -461,7 +447,6 @@ def main(file_train, file_test):
 
     # Buildling ANN and kNN models
     label_map, tfidf, pca, kmeans, hc = build_models(file_train, X, y, label_map, tfidf, pca)
-    #tfidf, pca, ann, knn = build_models(file_train)
 
     # Predicting new data point using ANN and kNN
     #test_models(label_map,tfidf,pca,kmeans,hc)
