@@ -33,6 +33,12 @@ LOG=False
 
 # Read the input data, store it in numpy array, preprocess it and maps the labels to indexes 
 def read_data(file, label_values=None):
+    '''
+    Read data from file, extract label and features, convert to numpy array and hashes the category labels with its index
+    :param file: file to read data from
+    :param label_values:  hash map of labels with their index
+    :return: data, labels, hashmap of labels
+    '''
     #Read Data
     data = pd.read_csv(file)
     if LOG:
@@ -99,19 +105,41 @@ def read_data(file, label_values=None):
 
 #Store X obtained after PCA transformation
 def store_array(filename, array):
+    '''
+    Store the array in file
+    :param filename: file to store array in
+    :param array: array to store
+    :return: None
+    '''
     np.save(filename, array)
 
 def store_instance(filename, instance):
+    '''
+    Store an object in file
+    :param filename: file to store object in
+    :param instance: object to store
+    :return: None
+    '''
     pickle.dump(instance, open(filename, 'wb'))
     if LOG:
         print(instance.get_params())
 
 def read_array(filename):
+    '''
+    Read a numpy array from file
+    :param filename: file to read array from
+    :return: numpy array
+    '''
     array= np.load(filename)
     return array
 
 #Read PCA Transformed X from file
 def read_instance(filename):
+    '''
+
+    :param filename: file to read object from.
+    :return: object
+    '''
     instance = pickle.load(open(filename, 'rb'))
     if LOG:
         print(instance.get_params())
@@ -119,7 +147,11 @@ def read_instance(filename):
 
 # Compute the TF-IDF vectors for data points
 def tf_idf(data):
-
+    '''
+    converts the textual feature to numberical format
+    :param data: textual features
+    :return: numerical features, TFIDF model
+    '''
     #TFIDF
     vectorizer = TfidfVectorizer(stop_words='english')
 
@@ -139,7 +171,11 @@ def tf_idf(data):
 
 # Perform the PCA on the input data set
 def do_pca(X):
-    #PCA
+    '''
+    Performs PCA dimensionality reduction on TFIDF vectors
+    :param X: TFIDF matrix
+    :return: PCA matrix
+    '''
 
     pca = PCA(0.95)
     pca.fit(X)
@@ -154,6 +190,12 @@ def do_pca(X):
     return X, pca
 
 def do_isomap(X,n_comp):
+    '''
+    Reduces the dimensions of data to 2 or 3.
+    :param X: data
+    :param n_comp: number of dimensions to reduce to
+    :return: Dimension reduced data
+    '''
     print("Performing isomap")
     imap = Isomap(n_components=n_comp,
                   n_neighbors=5,
@@ -164,6 +206,13 @@ def do_isomap(X,n_comp):
     return X_n
 
 def plot2d_isomap(X, title, y=None):
+    '''
+    Plot the dimension reduced data in 2D scatter plot
+    :param X: 2D data
+    :param title: title for the plot
+    :param y: labels used to color code the scatter plot
+    :return: None
+    '''
     plt.title(title)
     plt.xlabel('Component 0')
     plt.ylabel('Component 1')
@@ -177,6 +226,13 @@ def plot2d_isomap(X, title, y=None):
     plt.savefig(""+str(title)+".png", dpi = 600)
 
 def plot_isomap(X, title, y=None):
+    '''
+    Plot the dimension reduced data in 3D scatter plot
+    :param X: 3D data
+    :param title: title for the plot
+    :param y: labels used to color code the scatter plot
+    :return: None
+    '''
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     ax.set_title(title)
@@ -192,6 +248,12 @@ def plot_isomap(X, title, y=None):
     plt.savefig(""+str(title)+".png", dpi = 600)
 
 def do_kmeans(X, X_n=None):
+    '''
+    Build the KMean model, train it and print statistics.
+    :param X: data to train the model on
+    :param X_n: isomap data used for plotting the clusters
+    :return: KMeans model
+    '''
     if X_n is None:
         X_n = do_isomap(X,2)
 
@@ -212,6 +274,16 @@ def do_kmeans(X, X_n=None):
     return kmeans
 
 def plot_isomap2d_AHC(X_n,model,index,linkage,n_clusters,elapsed_time):
+    '''
+    Plot a 2D scatter plot on isomap data using predicted labels obtained from AHC
+    :param X_n: 2D data
+    :param model: AHC model
+    :param index: hashmap for labels
+    :param linkage: linkage type for AHC
+    :param n_clusters: No of clusters for AHC
+    :param elapsed_time: Running time for training the model
+    :return: None
+    '''
     print("isomap 2D")
     plt.subplot(1, 3, index+1)
     plt.scatter(X_n[:, 0], X_n[:, 1], c=model.labels_, marker = '.')
@@ -223,6 +295,16 @@ def plot_isomap2d_AHC(X_n,model,index,linkage,n_clusters,elapsed_time):
     plt.suptitle('n_cluster=%i' % (n_clusters), size=17)
 
 def plot_isomap3d_AHC(X_n,model,index,linkage,n_clusters,elapsed_time):
+    '''
+    plot 3D scatter plot on isomap data using labels obtained from AHC
+    :param X_n: 2D isomap data
+    :param model: AHC model
+    :param index: hash map for labels
+    :param linkage: linkage type used
+    :param n_clusters: no. of clusters used
+    :param elapsed_time: Training time for the model
+    :return: None
+    '''
     print("isomap 3D")
     plt.subplot(111, projection='3d')
     plt.scatter(X_n[:, 0], X_n[:, 1], X_n[:, 2], c=model.labels_, marker = '.')
@@ -235,6 +317,13 @@ def plot_isomap3d_AHC(X_n,model,index,linkage,n_clusters,elapsed_time):
     plt.savefig("3D_num_clusters_"+str(linkage)+str(n_clusters)+".png",bbox_inches="tight",dpi=600)
 
 def silhouette_plot(X, l, h):
+    '''
+    Plot the silhouette Coefficient to better understand the number of clusters required
+    :param X: data
+    :param l: lower limit for number of clusters
+    :param h: higher limit for number of clusters
+    :return: None
+    '''
     for n_clusters in range(l,h):
         # Create a subplot with 1 row and 2 columns
         fig, (ax1, ax2) = plt.subplots(1, 2)
@@ -322,6 +411,11 @@ def silhouette_plot(X, l, h):
         plt.show()
 
 def do_AHC(X):
+    '''
+    Build the Agglomerative Hierarchical Clustering model, Train the model and plot the result
+    :param X: data
+    :return: AHC model
+    '''
     print("Aglomerative Hierarchical clustering")
     for n_clusters in range(5,20):
         plt.figure(figsize=(10, 4))
@@ -344,36 +438,15 @@ def do_AHC(X):
 
         plt.savefig("num_clusters_"+str(n_clusters)+".png",bbox_inches="tight",dpi=600)
     plt.show()
-    return None
-
-# decode c dimension output to 1 dimension
-def decode_output(y_test,predictions):
-    # 1-of-c output decoding
-    y_pred = np.empty(shape = y_test.shape)
-    i=0
-    for row in predictions:
-        y_pred[i] = np.argmax(row)
-        i+=1
-    return y_pred
-
-# print the confusion matrix, class accuracies and overall accuracy
-def print_statistics(y_test,y_pred, deep=False):
-    accuracy = accuracy_score(y_test, y_pred)
-
-    if deep:
-        matrix = confusion_matrix(y_test, y_pred)
-        print(len(matrix))
-        sum = 0
-        print("Class Accuracies:")
-        for i in range(len(matrix)):
-            sum += matrix[i][i]
-            print("Class ", i, ": ", round(matrix[i][i]/np.sum(matrix[i]), 4))
-        print("Confusion Matrix:\n", matrix)
-    print("Overall Accuracy:\n", accuracy)
-    return accuracy
+    return model
 
 # Preprocess data and store it in the file
 def process_data(f):
+    '''
+    Method that handles all the pre-processing steps. Loading data, TFIDF, PCA and storing the preprocessed data
+    :param f: file to read data from
+    :return:Data, labels, hashmap for labels, TFIDF model, PCA model
+    '''
     data, y, label_map = read_data(f)
     X, tfidf = tf_idf(data)
     X, pca = do_pca(X)
@@ -391,7 +464,17 @@ def process_data(f):
 # method to build ANN and kNN models
 
 def build_models(f, X=None, y=None, label_map=None, tfidf=None, pca=None):
-
+    '''
+    Method that handles the training phase of all the models.
+    Performs KMeans and AHC on the dataset read from the training file.
+    :param f: file to read data from if initialization failed
+    :param X: data if initialized beforehand
+    :param y: labels if initialized beforehand
+    :param label_map: hashmap for labels if initialized beforehand
+    :param tfidf: TFIDF Model if initialized beforehand
+    :param pca: PCA Model if initialized beforehand
+    :return: hashmap for labels, TFIDF model, PCA model, KMeans model, AHC Model
+    '''
     if X is None:
         data, y, label_map = read_data(f)
         X, tfidf = tf_idf(data)
@@ -413,29 +496,41 @@ def build_models(f, X=None, y=None, label_map=None, tfidf=None, pca=None):
     return label_map, tfidf, pca, kmeans, hc
 
 # Test the new data point on already build models
-def test_models(label_map, tfidf, pca, kmeans, hc):
-
+def test_models(file_test, label_map, tfidf, pca, kmeans, hc):
+    '''
+    Testing the models on test data
+    :param file_test: file containing testing data
+    :param label_map: hashmap for labels
+    :param tfidf: TFIDF model
+    :param pca: PCA model
+    :param kmeans: KMeans Model
+    :param hc: AHC model
+    :return: None
+    '''
     print("\n\n\nTesting the data")
 
     data, y, label_map = read_data(file_test, label_map)
-    #X = tfidf.fit_transform(data[:,2])
     X = tfidf.transform(data)
     X = X.todense()
-
     X = pca.transform(X)
 
     #KMeans
     start_time = time.clock()
     y_pred = kmeans.predict(X)
-    print("y_pred=", y_pred)
-    print("Predicted Class = ", y_pred)
-    y_test = y.T
-    print_statistics(y_test,y_pred, deep=False)
-# main method 
+    print("Predicted labels:")
+    print(y_pred)
+
+# main method
 def main(file_train, file_test):
-    # Preprocess data and store it in file
-    #X, y, label_map, tfidf, pca = process_data(file_train)
-    #print("Data Processed")
+    '''
+    Main Method which handles the flow of the program
+    :param file_train: file containing training data
+    :param file_test: file contatining testing data
+    :return: None
+    '''
+    #Preprocess data and store it in file
+    X, y, label_map, tfidf, pca = process_data(file_train)
+    print("Data Processed")
 
     #Read data from files
     X=read_array("X_array.npy")
@@ -449,7 +544,7 @@ def main(file_train, file_test):
     label_map, tfidf, pca, kmeans, hc = build_models(file_train, X, y, label_map, tfidf, pca)
 
     # Predicting new data point using ANN and kNN
-    #test_models(label_map,tfidf,pca,kmeans,hc)
+    test_models(file_test, label_map,tfidf,pca,kmeans,hc)
 
 # Training and testing the model on input dataset
 file_train ='USvideos_modified.csv' 
