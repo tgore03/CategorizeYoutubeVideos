@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59ee6113-5ad0-49b3-91be-d2c2c1620143" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/Categorizing YouTube Videos - Tanmay Gore - Nitesh Gupta.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Categorizing YouTube Videos.pptx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClassiTube.py" beforeDir="false" afterPath="$PROJECT_DIR$/ClassiTube.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/VideoCategorization_Final Report.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/num_clusters_20.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_problems.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Documents/VideoCategorization_Final Report.docx" beforeDir="false" afterPath="$PROJECT_DIR$/Documents/VideoCategorization_Final Report.docx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,24 +14,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ClassiTube.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ClassiTube.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ClassiTube.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="331">
-              <caret line="311" column="30" lean-forward="true" selection-start-line="311" selection-start-column="30" selection-end-line="311" selection-end-column="30" />
+            <state relative-caret-position="266">
+              <caret line="268" column="40" selection-start-line="268" selection-start-column="40" selection-end-line="268" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClassiTube - Copy.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ClassiTube - Copy.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="405">
+              <caret line="201" lean-forward="true" selection-start-line="201" selection-end-line="201" />
               <folding>
-                <element signature="e#1067#3433#0" />
-                <element signature="e#3516#3679#0" />
-                <element signature="e#3725#3961#0" />
-                <element signature="e#3993#4153#0" />
-                <element signature="e#4222#4419#0" />
-                <element signature="e#4488#4992#0" />
-                <element signature="e#5053#5512#0" />
-                <element signature="e#6039#6599#0" />
-                <element signature="e#6640#7296#0" />
-                <element signature="e#9123#9986#0" />
-                <element signature="e#14853#15490#0" />
-                <element signature="e#16668#17384#0" />
+                <element signature="e#0#19#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -51,6 +44,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/ClassiTube.py" />
+        <option value="$PROJECT_DIR$/ClassiTube - Copy.py" />
       </list>
     </option>
   </component>
@@ -189,18 +183,18 @@
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.5324859" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32909605" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.5324859" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27114093" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2751678" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
       <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Messages" order="7" />
@@ -221,22 +215,15 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/ClassiTube.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5287">
+          <caret line="311" column="30" lean-forward="true" selection-start-line="311" selection-start-column="30" selection-end-line="311" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ClassiTube.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7378">
           <caret line="463" column="36" lean-forward="true" selection-start-line="463" selection-start-column="36" selection-end-line="463" selection-end-column="36" />
-          <folding>
-            <element signature="e#1067#3433#0" />
-            <element signature="e#3516#3679#0" />
-            <element signature="e#3725#3961#0" />
-            <element signature="e#3993#4153#0" />
-            <element signature="e#4222#4419#0" />
-            <element signature="e#4488#4992#0" />
-            <element signature="e#5053#5512#0" />
-            <element signature="e#6039#6599#0" />
-            <element signature="e#6640#7296#0" />
-            <element signature="e#9123#9986#0" />
-            <element signature="e#14853#15490#0" />
-            <element signature="e#16668#17384#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -244,20 +231,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3366">
           <caret line="198" column="47" lean-forward="true" selection-start-line="198" selection-start-column="47" selection-end-line="198" selection-end-column="47" />
-          <folding>
-            <element signature="e#1067#3433#0" />
-            <element signature="e#3516#3679#0" />
-            <element signature="e#3725#3961#0" />
-            <element signature="e#3993#4153#0" />
-            <element signature="e#4222#4419#0" />
-            <element signature="e#4488#4992#0" />
-            <element signature="e#5053#5512#0" />
-            <element signature="e#6039#6599#0" />
-            <element signature="e#6640#7296#0" />
-            <element signature="e#9123#9986#0" />
-            <element signature="e#14853#15490#0" />
-            <element signature="e#16668#17384#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -333,21 +306,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ClassiTube.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="331">
-          <caret line="311" column="30" lean-forward="true" selection-start-line="311" selection-start-column="30" selection-end-line="311" selection-end-column="30" />
+        <state relative-caret-position="266">
+          <caret line="268" column="40" selection-start-line="268" selection-start-column="40" selection-end-line="268" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ClassiTube - Copy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="201" lean-forward="true" selection-start-line="201" selection-end-line="201" />
           <folding>
-            <element signature="e#1067#3433#0" />
-            <element signature="e#3516#3679#0" />
-            <element signature="e#3725#3961#0" />
-            <element signature="e#3993#4153#0" />
-            <element signature="e#4222#4419#0" />
-            <element signature="e#4488#4992#0" />
-            <element signature="e#5053#5512#0" />
-            <element signature="e#6039#6599#0" />
-            <element signature="e#6640#7296#0" />
-            <element signature="e#9123#9986#0" />
-            <element signature="e#14853#15490#0" />
-            <element signature="e#16668#17384#0" />
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
