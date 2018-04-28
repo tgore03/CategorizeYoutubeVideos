@@ -330,21 +330,12 @@ def silhouette_plot(X, l, h):
         fig.set_size_inches(18, 7)
 
         # The 1st subplot is the silhouette plot
-        # The silhouette coefficient can range from -1, 1 but in this example all
+        # The silhouette coefficient can range from -1, 1 but for our projct the values
         # lie within [-0.1, 1]
         ax1.set_xlim([-0.1, 1])
-        # The (n_clusters+1)*10 is for inserting blank space between silhouette
-        # plots of individual clusters, to demarcate them clearly.
         ax1.set_ylim([0, len(X) + (n_clusters + 1) * 10])
-
-        # Initialize the clusterer with n_clusters value and a random generator
-        # seed of 10 for reproducibility.
         clusterer = AgglomerativeClustering(linkage='complete',n_clusters=n_clusters)
         cluster_labels = clusterer.fit_predict(X)
-
-        # The silhouette_score gives the average value for all the samples.
-        # This gives a perspective into the density and separation of the formed
-        # clusters
         silhouette_avg = silhouette_score(X, cluster_labels)
         print("For n_clusters =", n_clusters,
               "The average silhouette_score is :", silhouette_avg)
@@ -365,7 +356,6 @@ def silhouette_plot(X, l, h):
             y_upper = y_lower + size_cluster_i
 
             color = plt.cm.Spectral(float(i) / n_clusters)
-            #colors = [float(i) for i in cluster_labels]
             ax1.fill_betweenx(np.arange(y_lower, y_upper),
                               0, ith_cluster_silhouette_values,
                               facecolor=color, edgecolor=color, alpha=0.7)
@@ -391,7 +381,7 @@ def silhouette_plot(X, l, h):
         ax2.scatter(X[:, 0], X[:, 1], marker='.', s=30, lw=0, alpha=0.7,
                     c=colors, edgecolor='k')
 
-        # Labeling the clusters
+        # Labeling the clusters (Not valid for Hierarchichal Clustering)
         #centers = clusterer.cluster_centers_
         # Draw white circles at cluster centers
         #ax2.scatter(centers[:, 0], centers[:, 1], marker='o',
@@ -417,7 +407,7 @@ def do_AHC(X):
     :return: AHC model
     '''
     print("Aglomerative Hierarchical clustering")
-    for n_clusters in range(5,20):
+    for n_clusters in range(20,21):
         plt.figure(figsize=(10, 4))
         for index, linkage in enumerate(('average', 'complete', 'ward')):
             model = AgglomerativeClustering(linkage=linkage,
@@ -484,13 +474,13 @@ def build_models(f, X=None, y=None, label_map=None, tfidf=None, pca=None):
 
     #KMeans
     start_time = time.clock()
-    kmeans = 0#do_kmeans(X)
+    kmeans = do_kmeans(X)
     print("Time to build KMeans model = ", time.clock()-start_time)
 
     #Hierarchical Clustering
     start_time = time.clock()
-    hc = 0#do_AHC(X)
-    silhouette_plot(X,20,21)
+    hc = do_AHC(X)
+    #silhouette_plot(X,20,21)
     print("Time to build Hierarchical Clustering model = ", time.clock()-start_time)
 
     return label_map, tfidf, pca, kmeans, hc
@@ -540,10 +530,10 @@ def main(file_train, file_test):
     pca=read_instance("pca.sav")
     print("Data read")
 
-    # Buildling ANN and kNN models
+    # Buildling K-Means and Agglomerative Hierarchichal Clustering(AHC) models
     label_map, tfidf, pca, kmeans, hc = build_models(file_train, X, y, label_map, tfidf, pca)
 
-    # Predicting new data point using ANN and kNN
+    # Predicting new data point using K-Means and AHC
     test_models(file_test, label_map,tfidf,pca,kmeans,hc)
 
 # Training and testing the model on input dataset

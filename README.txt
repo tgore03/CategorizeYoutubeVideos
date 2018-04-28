@@ -1,6 +1,6 @@
 
 
-CS 574 - Project
+EE 525 - Project
 
 Steps to Run the Program:
 1. Extract the zip folder
