@@ -2,8 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59ee6113-5ad0-49b3-91be-d2c2c1620143" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Categorizing YouTube Videos - Tanmay Gore - Nitesh Gupta.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Categorizing YouTube Videos.pptx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ClassiTube.py" beforeDir="false" afterPath="$PROJECT_DIR$/ClassiTube.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VideoCategorization_Final Report.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/num_clusters_20.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_problems.pdf" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,28 +22,21 @@
       <file leaf-file-name="ClassiTube.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ClassiTube.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="714">
-              <caret line="463" column="36" lean-forward="true" selection-start-line="463" selection-start-column="36" selection-end-line="463" selection-end-column="36" />
+            <state relative-caret-position="331">
+              <caret line="311" column="30" lean-forward="true" selection-start-line="311" selection-start-column="30" selection-end-line="311" selection-end-column="30" />
               <folding>
-                <element signature="e#1072#3153#0" />
-                <element signature="e#3521#3545#0" />
-                <element signature="e#3730#3822#0" />
-                <element signature="e#3998#4039#0" />
-                <element signature="e#4108#4221#0" />
-                <element signature="e#3718#4073#0" />
-                <element signature="e#5057#5440#0" />
-                <element signature="e#5553#5836#0" />
-                <element signature="e#6050#6405#0" />
-                <element signature="e#6651#7102#0" />
-                <element signature="e#7335#8010#0" />
-                <element signature="e#8288#8696#0" />
-                <element signature="e#9129#9655#0" />
-                <element signature="e#10027#13841#0" />
-                <element signature="e#14098#15233#0" />
-                <element signature="e#15314#15716#0" />
-                <element signature="e#13749#14262#0" />
-                <element signature="e#17247#17528#0" />
-                <element signature="e#17819#18397#0" />
+                <element signature="e#1067#3433#0" />
+                <element signature="e#3516#3679#0" />
+                <element signature="e#3725#3961#0" />
+                <element signature="e#3993#4153#0" />
+                <element signature="e#4222#4419#0" />
+                <element signature="e#4488#4992#0" />
+                <element signature="e#5053#5512#0" />
+                <element signature="e#6039#6599#0" />
+                <element signature="e#6640#7296#0" />
+                <element signature="e#9123#9986#0" />
+                <element signature="e#14853#15490#0" />
+                <element signature="e#16668#17384#0" />
               </folding>
             </state>
           </provider>
@@ -67,7 +65,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -81,10 +78,11 @@
       </pane>
       <pane id="PackagesPane" />
       <pane id="AndroidView" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CS574 Project - Github" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -183,7 +181,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -197,7 +194,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2671141" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27114093" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
@@ -218,34 +215,48 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="3" />
+      <option name="time" value="5" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/ClassiTube.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7378">
+          <caret line="463" column="36" lean-forward="true" selection-start-line="463" selection-start-column="36" selection-end-line="463" selection-end-column="36" />
+          <folding>
+            <element signature="e#1067#3433#0" />
+            <element signature="e#3516#3679#0" />
+            <element signature="e#3725#3961#0" />
+            <element signature="e#3993#4153#0" />
+            <element signature="e#4222#4419#0" />
+            <element signature="e#4488#4992#0" />
+            <element signature="e#5053#5512#0" />
+            <element signature="e#6039#6599#0" />
+            <element signature="e#6640#7296#0" />
+            <element signature="e#9123#9986#0" />
+            <element signature="e#14853#15490#0" />
+            <element signature="e#16668#17384#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ClassiTube.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3366">
           <caret line="198" column="47" lean-forward="true" selection-start-line="198" selection-start-column="47" selection-end-line="198" selection-end-column="47" />
           <folding>
-            <element signature="e#1072#3153#0" />
-            <element signature="e#3521#3545#0" />
-            <element signature="e#3730#3822#0" />
-            <element signature="e#3998#4039#0" />
-            <element signature="e#4108#4221#0" />
-            <element signature="e#3718#4073#0" />
-            <element signature="e#5057#5440#0" />
-            <element signature="e#5553#5836#0" />
-            <element signature="e#6050#6405#0" />
-            <element signature="e#6651#7102#0" />
-            <element signature="e#7335#8010#0" />
-            <element signature="e#8288#8696#0" />
-            <element signature="e#9129#9655#0" />
-            <element signature="e#10027#13841#0" />
-            <element signature="e#14098#15233#0" />
-            <element signature="e#15314#15716#0" />
-            <element signature="e#13749#14262#0" />
-            <element signature="e#17247#17528#0" />
-            <element signature="e#17819#18397#0" />
+            <element signature="e#1067#3433#0" />
+            <element signature="e#3516#3679#0" />
+            <element signature="e#3725#3961#0" />
+            <element signature="e#3993#4153#0" />
+            <element signature="e#4222#4419#0" />
+            <element signature="e#4488#4992#0" />
+            <element signature="e#5053#5512#0" />
+            <element signature="e#6039#6599#0" />
+            <element signature="e#6640#7296#0" />
+            <element signature="e#9123#9986#0" />
+            <element signature="e#14853#15490#0" />
+            <element signature="e#16668#17384#0" />
           </folding>
         </state>
       </provider>
@@ -322,28 +333,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ClassiTube.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="463" column="36" lean-forward="true" selection-start-line="463" selection-start-column="36" selection-end-line="463" selection-end-column="36" />
+        <state relative-caret-position="331">
+          <caret line="311" column="30" lean-forward="true" selection-start-line="311" selection-start-column="30" selection-end-line="311" selection-end-column="30" />
           <folding>
-            <element signature="e#1072#3153#0" />
-            <element signature="e#3521#3545#0" />
-            <element signature="e#3730#3822#0" />
-            <element signature="e#3998#4039#0" />
-            <element signature="e#4108#4221#0" />
-            <element signature="e#3718#4073#0" />
-            <element signature="e#5057#5440#0" />
-            <element signature="e#5553#5836#0" />
-            <element signature="e#6050#6405#0" />
-            <element signature="e#6651#7102#0" />
-            <element signature="e#7335#8010#0" />
-            <element signature="e#8288#8696#0" />
-            <element signature="e#9129#9655#0" />
-            <element signature="e#10027#13841#0" />
-            <element signature="e#14098#15233#0" />
-            <element signature="e#15314#15716#0" />
-            <element signature="e#13749#14262#0" />
-            <element signature="e#17247#17528#0" />
-            <element signature="e#17819#18397#0" />
+            <element signature="e#1067#3433#0" />
+            <element signature="e#3516#3679#0" />
+            <element signature="e#3725#3961#0" />
+            <element signature="e#3993#4153#0" />
+            <element signature="e#4222#4419#0" />
+            <element signature="e#4488#4992#0" />
+            <element signature="e#5053#5512#0" />
+            <element signature="e#6039#6599#0" />
+            <element signature="e#6640#7296#0" />
+            <element signature="e#9123#9986#0" />
+            <element signature="e#14853#15490#0" />
+            <element signature="e#16668#17384#0" />
           </folding>
         </state>
       </provider>

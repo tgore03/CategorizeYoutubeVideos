@@ -31,7 +31,6 @@ from keras import optimizers
 
 LOG=False
 
-# Read the input data, store it in numpy array, preprocess it and maps the labels to indexes 
 def read_data(file, label_values=None):
     '''
     Read data from file, extract label and features, convert to numpy array and hashes the category labels with its index
@@ -103,7 +102,6 @@ def read_data(file, label_values=None):
 
     return data[:,0],y, label_values
 
-#Store X obtained after PCA transformation
 def store_array(filename, array):
     '''
     Store the array in file
@@ -133,10 +131,9 @@ def read_array(filename):
     array= np.load(filename)
     return array
 
-#Read PCA Transformed X from file
 def read_instance(filename):
     '''
-
+    Read object stored in file
     :param filename: file to read object from.
     :return: object
     '''
@@ -145,7 +142,6 @@ def read_instance(filename):
         print(instance.get_params())
     return instance
 
-# Compute the TF-IDF vectors for data points
 def tf_idf(data):
     '''
     converts the textual feature to numberical format
@@ -169,7 +165,6 @@ def tf_idf(data):
 
     return X, vectorizer
 
-# Perform the PCA on the input data set
 def do_pca(X):
     '''
     Performs PCA dimensionality reduction on TFIDF vectors
@@ -183,10 +178,9 @@ def do_pca(X):
 
     if LOG:
         print("PCA")
-    #     print("Explained Variance:", pca.explained_variance_)
-    #     print("Explained Variance Ratio Sum:", pca.explained_variance_ratio_.sum())
-    #     print("PCA Transformed Data Shape:\n",X.shape)
-    #     print()
+        print("Explained Variance:", pca.explained_variance_)
+        print("Explained Variance Ratio Sum:", pca.explained_variance_ratio_.sum())
+        print()
     return X, pca
 
 def do_isomap(X,n_comp):
@@ -259,7 +253,7 @@ def do_kmeans(X, X_n=None):
 
     print("\nKMeans")
     #k_range=[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25]
-    k_range=[50, 100, 300, 500, 700, 1000]
+    k_range=[3, 4]
     for i in k_range:
         start_time = time.clock()
         kmeans = KMeans(n_clusters=i, n_init=20, n_jobs=3)
@@ -268,7 +262,6 @@ def do_kmeans(X, X_n=None):
 
         title="Kmeans, k-"+str(i)
         plot2d_isomap(X_n, title, y)
-        #print("Score=", kmeans.score(X))
         print("For k=%d, Silhouette Coefficient: %0.3f"
               % (i, silhouette_score(X, kmeans.labels_)))
     return kmeans
@@ -284,7 +277,7 @@ def plot_isomap2d_AHC(X_n,model,index,linkage,n_clusters,elapsed_time):
     :param elapsed_time: Running time for training the model
     :return: None
     '''
-    print("isomap 2D")
+    print("isomap 2D plot")
     plt.subplot(1, 3, index+1)
     plt.scatter(X_n[:, 0], X_n[:, 1], c=model.labels_, marker = '.')
     plt.title('linkage=%s (time %.2fs)' % (linkage, elapsed_time),
@@ -316,98 +309,20 @@ def plot_isomap3d_AHC(X_n,model,index,linkage,n_clusters,elapsed_time):
     plt.suptitle('n_cluster=%i' % (n_clusters), size=17)
     plt.savefig("3D_num_clusters_"+str(linkage)+str(n_clusters)+".png",bbox_inches="tight",dpi=600)
 
-def silhouette_plot(X, l, h):
-    '''
-    Plot the silhouette Coefficient to better understand the number of clusters required
-    :param X: data
-    :param l: lower limit for number of clusters
-    :param h: higher limit for number of clusters
-    :return: None
-    '''
-    for n_clusters in range(l,h):
-        # Create a subplot with 1 row and 2 columns
-        fig, (ax1, ax2) = plt.subplots(1, 2)
-        fig.set_size_inches(18, 7)
-
-        # The 1st subplot is the silhouette plot
-        # The silhouette coefficient can range from -1, 1 but for our projct the values
-        # lie within [-0.1, 1]
-        ax1.set_xlim([-0.1, 1])
-        ax1.set_ylim([0, len(X) + (n_clusters + 1) * 10])
-        clusterer = AgglomerativeClustering(linkage='complete',n_clusters=n_clusters)
-        cluster_labels = clusterer.fit_predict(X)
-        silhouette_avg = silhouette_score(X, cluster_labels)
-        print("For n_clusters =", n_clusters,
-              "The average silhouette_score is :", silhouette_avg)
-     
-     # Compute the silhouette scores for each sample
-        sample_silhouette_values = silhouette_samples(X, cluster_labels)
-
-        y_lower = 10
-        for i in range(n_clusters):
-            # Aggregate the silhouette scores for samples belonging to
-            # cluster i, and sort them
-            ith_cluster_silhouette_values = \
-                sample_silhouette_values[cluster_labels == i]
-
-            ith_cluster_silhouette_values.sort()
-
-            size_cluster_i = ith_cluster_silhouette_values.shape[0]
-            y_upper = y_lower + size_cluster_i
-
-            color = plt.cm.Spectral(float(i) / n_clusters)
-            ax1.fill_betweenx(np.arange(y_lower, y_upper),
-                              0, ith_cluster_silhouette_values,
-                              facecolor=color, edgecolor=color, alpha=0.7)
-
-            # Label the silhouette plots with their cluster numbers at the middle
-            ax1.text(-0.05, y_lower + 0.5 * size_cluster_i, str(i))
-
-            # Compute the new y_lower for next plot
-            y_lower = y_upper + 10  # 10 for the 0 samples
-
-        ax1.set_title("The silhouette plot for the various clusters.")
-        ax1.set_xlabel("The silhouette coefficient values")
-        ax1.set_ylabel("Cluster label")
-
-        # The vertical line for average silhouette score of all the values
-        ax1.axvline(x=silhouette_avg, color="red", linestyle="--")
-
-        ax1.set_yticks([])  # Clear the yaxis labels / ticks
-        ax1.set_xticks([-0.1, 0, 0.2, 0.4, 0.6, 0.8, 1])
-
-        # 2nd Plot showing the actual clusters formed
-        colors = plt.cm.Spectral(cluster_labels.astype(float) / n_clusters)
-        ax2.scatter(X[:, 0], X[:, 1], marker='.', s=30, lw=0, alpha=0.7,
-                    c=colors, edgecolor='k')
-
-        # Labeling the clusters (Not valid for Hierarchichal Clustering)
-        #centers = clusterer.cluster_centers_
-        # Draw white circles at cluster centers
-        #ax2.scatter(centers[:, 0], centers[:, 1], marker='o',
-        #            c="white", alpha=1, s=200, edgecolor='k')
-
-        #for i, c in enumerate(centers):
-        #    ax2.scatter(c[0], c[1], marker='$%d$' % i, alpha=1,
-        #                s=50, edgecolor='k')
-
-        ax2.set_title("The visualization of the clustered data.")
-        ax2.set_xlabel("Feature space for the 1st feature")
-        ax2.set_ylabel("Feature space for the 2nd feature")
-
-        plt.suptitle(("Silhouette analysis for KMeans clustering on sample data "
-                      "with n_clusters = %d" % n_clusters),
-                     fontsize=14, fontweight='bold')
-        plt.show()
-
-def do_AHC(X):
+def do_AHC(X, l, h, X_n=None):
     '''
     Build the Agglomerative Hierarchical Clustering model, Train the model and plot the result
     :param X: data
+    :param l: lower limit for number of clusters
+    :param h; higher limit for number of clusters
     :return: AHC model
     '''
     print("Aglomerative Hierarchical clustering")
-    for n_clusters in range(20,21):
+    if X_n is None:
+        X_n = do_isomap(X,2)
+
+    model =None
+    for n_clusters in range(l,h):
         plt.figure(figsize=(10, 4))
         for index, linkage in enumerate(('average', 'complete', 'ward')):
             model = AgglomerativeClustering(linkage=linkage,
@@ -419,7 +334,6 @@ def do_AHC(X):
             print("Number of Cluster=%d, linkage = %10s, Silhouette Coefficient: %0.3f"% (n_clusters, linkage, silhouette_score(X, model.labels_)))
             
             #plot 2d
-            X_n = do_isomap(X,2)
             plot_isomap2d_AHC(X_n,model,index,linkage,n_clusters,elapsed_time)
         
             #plot 3d
@@ -430,7 +344,6 @@ def do_AHC(X):
     plt.show()
     return model
 
-# Preprocess data and store it in the file
 def process_data(f):
     '''
     Method that handles all the pre-processing steps. Loading data, TFIDF, PCA and storing the preprocessed data
@@ -443,15 +356,13 @@ def process_data(f):
     np.savetxt("X.csv", X, delimiter=",")
     np.savetxt("y.csv", y, delimiter=",")
     
-#Store the result
+    #Store the result
     store_array("X_array", X)
     store_array("y_array", y)
     store_array("label_map",label_map)
     store_instance("tfidf.sav",tfidf)
     store_instance("pca.sav", pca)
     return X, y, label_map, tfidf, pca
-
-# method to build ANN and kNN models
 
 def build_models(f, X=None, y=None, label_map=None, tfidf=None, pca=None):
     '''
@@ -470,54 +381,29 @@ def build_models(f, X=None, y=None, label_map=None, tfidf=None, pca=None):
         X, tfidf = tf_idf(data)
         X, pca = do_pca(X)
 
-    #do_isomap(X)
+    n_comp = 2
+    X_n = do_isomap(X, n_comp)
 
     #KMeans
     start_time = time.clock()
-    kmeans = do_kmeans(X)
+    kmeans = do_kmeans(X, X_n)
     print("Time to build KMeans model = ", time.clock()-start_time)
 
     #Hierarchical Clustering
     start_time = time.clock()
-    hc = do_AHC(X)
-    #silhouette_plot(X,20,21)
+    hc = do_AHC(X, 2, 4, X_n)
     print("Time to build Hierarchical Clustering model = ", time.clock()-start_time)
 
     return label_map, tfidf, pca, kmeans, hc
 
-# Test the new data point on already build models
-def test_models(file_test, label_map, tfidf, pca, kmeans, hc):
-    '''
-    Testing the models on test data
-    :param file_test: file containing testing data
-    :param label_map: hashmap for labels
-    :param tfidf: TFIDF model
-    :param pca: PCA model
-    :param kmeans: KMeans Model
-    :param hc: AHC model
-    :return: None
-    '''
-    print("\n\n\nTesting the data")
-
-    data, y, label_map = read_data(file_test, label_map)
-    X = tfidf.transform(data)
-    X = X.todense()
-    X = pca.transform(X)
-
-    #KMeans
-    start_time = time.clock()
-    y_pred = kmeans.predict(X)
-    print("Predicted labels:")
-    print(y_pred)
-
-# main method
-def main(file_train, file_test):
+def main(file_train):
     '''
     Main Method which handles the flow of the program
     :param file_train: file containing training data
     :param file_test: file contatining testing data
     :return: None
     '''
+
     #Preprocess data and store it in file
     X, y, label_map, tfidf, pca = process_data(file_train)
     print("Data Processed")
@@ -530,15 +416,10 @@ def main(file_train, file_test):
     pca=read_instance("pca.sav")
     print("Data read")
 
-    # Buildling K-Means and Agglomerative Hierarchichal Clustering(AHC) models
+    # Building K-Means and Agglomerative Hierarchical Clustering(AHC) models
     label_map, tfidf, pca, kmeans, hc = build_models(file_train, X, y, label_map, tfidf, pca)
 
-    # Predicting new data point using K-Means and AHC
-    test_models(file_test, label_map,tfidf,pca,kmeans,hc)
-
-# Training and testing the model on input dataset
-file_train ='USvideos_modified.csv' 
-file_test ='USvideos_modified_test.csv' 
+file_train ='USvideos_modified.csv'
 
 if __name__ == '__main__':
-    main(file_train, file_test)
+    main(file_train)
